@@ -35,6 +35,7 @@ export default function Home({route}: any) {
           padding: 15,
           paddingTop: Platform.select({ ios: 170, default: 15 }),
         }}
+        keyboardShouldPersistTaps="handled"
       >
         <AddTransaction />
         <TransactionSummary />

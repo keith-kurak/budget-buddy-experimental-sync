@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Card from "./ui/Card";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -39,6 +39,7 @@ export default function AddTransaction() {
           <Card>
             <TextInput
               placeholder="$Amount"
+              autoFocus
               style={{ fontSize: 32, marginBottom: 15, fontWeight: "bold" }}
               keyboardType="numeric"
               onChangeText={(text) => {
@@ -70,18 +71,18 @@ export default function AddTransaction() {
                 isSelected={viewData.categoryId === cat.id}
               />
             ))}
-          </Card>
-          <View
+            <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
-            <Button
+            <FancyButton
               title="Cancel"
               color="red"
               onPress={() =>
                 prisma.addTransactionView.updateMany({ data: { isAddingTransaction: false } })}
             />
-            <Button title="Save" onPress={handleSave} />
+            <FancyButton color="blue" title="Save" onPress={handleSave} />
           </View>
+          </Card>
         </View>
       ) : (
         <AddButton />
@@ -153,5 +154,27 @@ function AddButton() {
         New Entry
       </Text>
     </TouchableOpacity>
+  );
+}
+
+function FancyButton({
+  title,
+  onPress,
+  color,
+  disabled = false,
+}: {
+  title: string;
+  onPress: () => void;
+  color: string;
+  disabled?: boolean;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={{ backgroundColor: color, height: 40, borderRadius: 15, paddingHorizontal: 15, justifyContent: "center"}}
+    >
+      <Text style={{ color: 'white', fontSize: 18 }}>{title}</Text>
+    </Pressable>
   );
 }
